@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https://images.unsplash.com; base-uri 'self'; form-action 'none'; object-src 'none';">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Callejón Burger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --negro: #0D0B08;
+  --carbon: #1A1714;
+  --tierra: #2C2118;
+  --mostaza: #E8A820;
+  --rojo: #C8341A;
+  --crema: #F5EDD8;
+  --gris: #8A7F72;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--negro);color:var(--crema);font-family:'Outfit',sans-serif;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+img{max-width:100%;display:block;}
+button{font:inherit;cursor:pointer;border:none;background:none;}
+.container{width:min(1200px,calc(100% - 3rem));margin:0 auto;}
+
+/* NAV */
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:1.2rem 0;font-family:'IBM Plex Mono',monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--gris);}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.3em;color:var(--mostaza);}
+.nav{display:flex;gap:1.6rem;}
+.nav a{font-size:.78rem;color:var(--gris);transition:color .2s;position:relative;}
+.nav a::after{content:'';position:absolute;left:0;right:0;bottom:-4px;height:2px;background:var(--mostaza);transform:scaleX(0);transform-origin:left;transition:transform .25s ease;}
+.nav a:hover{color:var(--crema);}
+.nav a:hover::after{transform:scaleX(1);}
+
+/* HERO */
+.hero{min-height:88vh;display:grid;place-items:center;position:relative;overflow:hidden;
+  background:url('https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,11,8,.1),rgba(13,11,8,.92));}
+.hero-content{position:relative;z-index:1;text-align:center;max-width:780px;padding:0 1.5rem;}
+.hero-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;color:var(--mostaza);margin-bottom:1rem;}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(4.5rem,9vw,8rem);line-height:.85;color:var(--crema);margin-bottom:1.2rem;}
+.hero-text{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--crema);opacity:.88;line-height:1.45;max-width:680px;margin:0 auto 2.5rem;}
+.cta-group{display:flex;flex-wrap:wrap;justify-content:center;gap:1rem;}
+.btn{padding:.9rem 2rem;border:1px solid var(--mostaza);border-radius:999px;font-weight:600;letter-spacing:.08em;transition:transform .2s,background .2s,color .2s;display:inline-block;}
+.btn-primary{background:var(--mostaza);color:var(--negro);}
+.btn-secondary{background:transparent;color:var(--crema);}
+.btn:hover{transform:translateY(-2px);}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:3.5rem;}
+.stat-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);padding:1.4rem 1.6rem;border-radius:18px;}
+.stat-number{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--mostaza);}
+.stat-label{font-size:.82rem;color:var(--gris);line-height:1.6;margin-top:.3rem;}
+
+/* MARQUEE */
+.marquee-outer{overflow:hidden;background:var(--mostaza);padding:.7rem 0;}
+.marquee-inner{display:flex;width:max-content;animation:scroll-marquee 26s linear infinite;white-space:nowrap;}
+.marquee-inner span{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.18em;color:var(--negro);padding:0 2rem;}
+@keyframes scroll-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SECTION */
+.section{padding:6rem 0;}
+.section--alt{background:rgba(255,255,255,.03);}
+.section-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--mostaza);margin-bottom:.75rem;}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,4vw,3.2rem);color:var(--crema);line-height:1;}
+
+/* FEATURES — editorial */
+.features-strip{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(255,255,255,.08);margin-top:2.5rem;}
+.feat{padding:2.4rem 2rem;border-right:1px solid rgba(255,255,255,.08);}
+.feat:last-child{border-right:none;}
+.feat-num{font-family:'Bebas Neue',sans-serif;font-size:4.5rem;color:rgba(255,255,255,.06);line-height:1;margin-bottom:.8rem;}
+.feat-title{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--crema);margin-bottom:.6rem;}
+.feat-text{font-size:.95rem;color:var(--gris);line-height:1.8;}
+
+/* BRAND — editorial asimétrico */
+.brand-layout{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;margin-top:2rem;}
+.brand-statement{font-family:'DM Serif Display',serif;font-size:clamp(1.7rem,2.8vw,2.3rem);color:var(--crema);line-height:1.45;font-style:italic;}
+.brand-statement em{color:var(--mostaza);font-style:normal;}
+.brand-details{display:grid;gap:1.8rem;}
+.brand-sep{width:2rem;height:2px;background:var(--mostaza);margin-bottom:.9rem;}
+.brand-detail-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--crema);letter-spacing:.05em;margin-bottom:.4rem;}
+.brand-detail-text{font-size:.93rem;color:var(--gris);line-height:1.8;}
+
+/* MENU ACCORDION */
+.menu-accordion{display:flex;gap:10px;height:520px;}
+.acc-item{position:relative;flex:1;border-radius:22px;overflow:hidden;transition:flex .55s cubic-bezier(.25,.46,.45,.94);cursor:pointer;min-width:0;}
+.acc-item:hover,.acc-item.open{flex:5;}
+.acc-item img{width:100%;height:100%;object-fit:cover;transition:transform .55s ease;}
+.acc-item:hover img,.acc-item.open img{transform:scale(1.04);}
+.acc-item::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,11,8,.08) 35%,rgba(13,11,8,.88) 100%);pointer-events:none;}
+.acc-strip{position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%) rotate(180deg);writing-mode:vertical-rl;white-space:nowrap;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.18em;color:var(--crema);z-index:2;transition:opacity .2s .1s;}
+.acc-item:hover .acc-strip,.acc-item.open .acc-strip{opacity:0;pointer-events:none;}
+.acc-info{position:absolute;bottom:0;left:0;right:0;padding:2rem 1.8rem;z-index:2;opacity:0;transform:translateY(12px);transition:opacity .3s .18s,transform .3s .18s;}
+.acc-item:hover .acc-info,.acc-item.open .acc-info{opacity:1;transform:translateY(0);}
+.menu-label{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.25em;text-transform:uppercase;color:var(--mostaza);display:block;margin-bottom:.5rem;}
+.menu-name{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--crema);line-height:1;margin-bottom:.5rem;}
+.menu-desc{font-size:.88rem;color:rgba(245,237,216,.75);line-height:1.6;margin-bottom:.7rem;}
+.menu-price{font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--mostaza);}
+@media(max-width:768px){
+  .menu-accordion{flex-direction:column;height:auto;gap:8px;}
+  .acc-item{flex:1;min-height:80px;border-radius:16px;transition:min-height .5s cubic-bezier(.25,.46,.45,.94),flex .5s;}
+  .acc-item:hover,.acc-item.open{min-height:340px;flex:4;}
+  .acc-strip{writing-mode:horizontal-tb;transform:translateX(-50%) rotate(0deg);bottom:1.2rem;left:1.5rem;transform:none;}
+}
+
+/* GALLERY */
+.gallery{display:grid;grid-template-columns:2fr 1fr;gap:1rem;height:520px;}
+.gallery-main{border-radius:24px;overflow:hidden;}
+.gallery-main img{width:100%;height:100%;object-fit:cover;}
+.gallery-stack{display:grid;grid-template-rows:1fr 1fr;gap:1rem;}
+.gallery-stack img{width:100%;height:100%;object-fit:cover;border-radius:20px;}
+.gallery-stack--single{grid-template-rows:1fr;}
+.gallery-stack--single img{height:100%;}
+
+/* VOICE CARDS */
+.voice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;border:1px solid rgba(255,255,255,.07);border-radius:20px;overflow:hidden;margin-top:2.5rem;}
+.voice-card{padding:2.5rem;background:rgba(255,255,255,.02);}
+.voice-card:nth-child(odd){background:rgba(0,0,0,.15);}
+.voice-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--mostaza);letter-spacing:.06em;margin-bottom:.7rem;}
+.voice-text{font-size:.9rem;color:var(--gris);line-height:1.75;}
+.voice-quote{margin-top:1.2rem;padding:.9rem 1.2rem;border-left:2px solid var(--mostaza);font-family:'DM Serif Display',serif;font-style:italic;font-size:.95rem;color:var(--crema);line-height:1.5;}
+
+/* BIG CTA */
+.big-cta{position:relative;overflow:hidden;}
+.big-cta-rule{height:3px;background:linear-gradient(to right,var(--rojo),var(--mostaza),transparent);}
+.big-cta-body{background:radial-gradient(ellipse at 80% 50%,rgba(232,168,32,.11) 0%,transparent 60%),radial-gradient(ellipse at 15% 80%,rgba(200,52,26,.09) 0%,transparent 50%),var(--tierra);}
+.big-cta-inner{display:grid;grid-template-columns:1.3fr .7fr;gap:5rem;align-items:center;padding:7rem 0;}
+.big-cta-headline{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,5.5vw,5.8rem);line-height:.9;color:var(--crema);}
+.big-cta-headline em{color:var(--mostaza);font-style:normal;display:block;}
+.big-cta-sub{font-family:'DM Serif Display',serif;font-style:italic;font-size:1.15rem;color:var(--gris);margin-top:1.5rem;line-height:1.65;max-width:500px;}
+.big-cta-trust{display:flex;gap:2.5rem;margin-top:2.5rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap;}
+.trust-item{display:flex;flex-direction:column;gap:.2rem;}
+.trust-num{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;color:var(--mostaza);line-height:1;}
+.trust-label{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gris);}
+.big-cta-actions{display:flex;flex-direction:column;gap:1rem;}
+.big-cta-actions .btn{text-align:center;width:100%;}
+.big-cta-bg-word{position:absolute;bottom:-2rem;right:-1rem;font-family:'Bebas Neue',sans-serif;font-size:clamp(8rem,14vw,16rem);color:rgba(232,168,32,.04);line-height:1;pointer-events:none;user-select:none;letter-spacing:.05em;}
+
+/* PULL QUOTE */
+.pullquote{border-top:1px solid rgba(255,255,255,.07);padding-top:5rem;}
+.pullquote-mark{font-family:'DM Serif Display',serif;font-size:9rem;color:var(--mostaza);line-height:.6;opacity:.3;display:block;margin-bottom:1.5rem;}
+.pullquote q{font-family:'DM Serif Display',serif;font-size:clamp(1.5rem,2.8vw,2rem);color:var(--crema);line-height:1.55;max-width:820px;quotes:none;display:block;margin-bottom:2rem;}
+.pullquote-author{font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gris);display:flex;align-items:center;gap:1rem;}
+.pullquote-line{width:2rem;height:1px;background:var(--mostaza);}
+
+/* INFO */
+.info-row{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;margin-top:2rem;}
+.info-cell{padding:2rem;background:var(--tierra);}
+.info-cell:not(:last-child){border-right:1px solid rgba(255,255,255,.08);}
+.info-label{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mostaza);margin-bottom:.8rem;}
+.info-value{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--crema);}
+.info-detail{font-size:.9rem;color:var(--gris);line-height:1.7;margin-top:.3rem;}
+
+/* FOOTER */
+.footer{padding:3.5rem 0;border-top:1px solid rgba(255,255,255,.06);}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:2rem;}
+.footer-brand{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--mostaza);letter-spacing:.2em;margin-bottom:.8rem;}
+.footer-text{font-size:.9rem;color:var(--gris);line-height:1.8;}
+.footer-title{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--crema);letter-spacing:.08em;margin-bottom:.8rem;}
+.footer-link{font-size:.9rem;color:var(--gris);display:block;line-height:2;transition:color .2s;}
+.footer-link:hover{color:var(--crema);}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .stats{grid-template-columns:1fr;}
+  .features-strip{grid-template-columns:1fr;}
+  .feat{border-right:none;border-bottom:1px solid rgba(255,255,255,.08);}
+  .feat:last-child{border-bottom:none;}
+  .voice-grid{grid-template-columns:1fr;}
+  .big-cta-inner{grid-template-columns:1fr;gap:3rem;padding:5rem 0;}
+  .big-cta-actions{flex-direction:row;flex-wrap:wrap;}
+  .big-cta-actions .btn{width:auto;flex:1;}
+  .brand-layout{grid-template-columns:1fr;gap:2.5rem;}
+  .gallery{grid-template-columns:1fr;height:auto;}
+  .gallery-main{height:280px;}
+  .gallery-stack{grid-template-rows:auto;grid-template-columns:1fr 1fr;}
+  .gallery-stack img{height:180px;}
+  .info-row{grid-template-columns:1fr;}
+  .info-cell:not(:last-child){border-right:none;border-bottom:1px solid rgba(255,255,255,.08);}
+  .footer-grid{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .nav{gap:1rem;}
+  .gallery-stack{grid-template-columns:1fr;}
+  .gallery-stack img{height:160px;}
+}
+</style>
+</head>
+<body>
+
+<header class="container topbar">
+  <div class="logo">CALLEJÓN</div>
+  <nav class="nav" aria-label="Navegación principal">
+    <a href="#menu">Menú</a>
+    <a href="#marca">Marca</a>
+    <a href="#sabor">Sabor</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="hero-content container reveal">
+      <div class="hero-eyebrow">Fast Gourmet · Bogotá, Colombia</div>
+      <h1 class="hero-title">El sabor que nace en las calles de Bogotá.</h1>
+      <p class="hero-text">Hamburguesas artesanales con alma bogotana y actitud de calle. Pan horneado a diario, carne nacional y salsas que se hacen cada mañana. Siempre ha sido así.</p>
+      <div class="cta-group">
+        <a class="btn btn-primary" href="#menu">Ver menú</a>
+        <a class="btn btn-secondary" href="#contacto">Reserva ahora</a>
+      </div>
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">Sabor disponible todos los días</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">12+</div>
+          <div class="stat-label">Ingredientes frescos y locales</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">10 min</div>
+          <div class="stat-label">Entrega express al barrio</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee-outer">
+    <div class="marquee-inner">
+      <span>CALLEJÓN BURGER</span><span>·</span>
+      <span>BOGOTÁ</span><span>·</span>
+      <span>HECHO A FUEGO</span><span>·</span>
+      <span>ARTESANAL DE VERDAD</span><span>·</span>
+      <span>DESDE EL BARRIO</span><span>·</span>
+      <span>CALLEJÓN BURGER</span><span>·</span>
+      <span>BOGOTÁ</span><span>·</span>
+      <span>HECHO A FUEGO</span><span>·</span>
+      <span>ARTESANAL DE VERDAD</span><span>·</span>
+      <span>DESDE EL BARRIO</span><span>·</span>
+    </div>
+  </div>
+
+  <section class="section container reveal">
+    <p class="section-eyebrow">La personalidad de Callejón</p>
+    <h2 class="section-title">Lo que se sirve, se cuida.<br>Nada más.</h2>
+    <div class="voice-grid">
+      <div class="voice-card">
+        <p class="voice-title">Directo y sin rodeos</p>
+        <p class="voice-text">CALLEJÓN no usa lenguaje corporativo. Habla como alguien que sabe cocinar bien y no tiene tiempo para mentiras. Frases cortas, contundentes, sin adornos.</p>
+        <div class="voice-quote">"No hacemos concesiones. Ni en los ingredientes, ni en el sabor."</div>
+      </div>
+      <div class="voice-card">
+        <p class="voice-title">Orgullosamente bogotano</p>
+        <p class="voice-text">La identidad local es el corazón de la marca. Bogotá no es el contexto — es el protagonista. Cada plato lleva una historia del barrio.</p>
+        <div class="voice-quote">"Cada mordida sabe a Chapinero, a Usaquén, a La Candelaria."</div>
+      </div>
+      <div class="voice-card">
+        <p class="voice-title">Artesanal con actitud</p>
+        <p class="voice-text">No es el artesanal hipster. Es el artesanal de quien se levanta a las 5am a preparar las salsas. Orgullo de proceso, no de estética.</p>
+        <div class="voice-quote">"La salsa de la casa se hace cada mañana. Siempre ha sido así."</div>
+      </div>
+      <div class="voice-card">
+        <p class="voice-title">Irreverente, nunca vulgar</p>
+        <p class="voice-text">La marca tiene actitud de calle sin ser agresiva. Puede ser provocadora, pero siempre con inteligencia y buen gusto. Para los que entienden.</p>
+        <div class="voice-quote">"La Oscura no es para todos. Pero tú no eres como todos."</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="marca" class="section section--alt reveal">
+    <div class="container">
+      <p class="section-eyebrow">La marca Callejón</p>
+      <div class="brand-layout">
+        <div>
+          <p class="brand-statement">CALLEJÓN se construye sobre el sabor de la calle bogotana: directa, caliente y honesta. No es un restaurante de poses. Es una marca que entrega <em>actitud, sabor y conexión local</em> en cada hamburguesa.</p>
+        </div>
+        <div class="brand-details">
+          <div>
+            <div class="brand-sep"></div>
+            <p class="brand-detail-title">Identidad urbana</p>
+            <p class="brand-detail-text">Cada pieza habla de Bogotá con colores, ritmo y lenguaje propio. No podría ser de ninguna otra ciudad.</p>
+          </div>
+          <div>
+            <div class="brand-sep"></div>
+            <p class="brand-detail-title">Proceso artesanal</p>
+            <p class="brand-detail-text">Pan, salsas y carnes hechos a mano todos los días. Carne de res nacional 100%, ingredientes frescos, sin conservantes.</p>
+          </div>
+          <div>
+            <div class="brand-sep"></div>
+            <p class="brand-detail-title">Actitud auténtica</p>
+            <p class="brand-detail-text">Irreverente, sin clichés y con una propuesta clara para el público joven y exigente que no traga entero.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="menu" class="section reveal">
+    <div class="container">
+      <div style="margin-bottom:2.5rem;">
+        <p class="section-eyebrow">Menú</p>
+        <h2 class="section-title">Los clásicos del Callejón</h2>
+      </div>
+      <div class="menu-accordion" id="menuAccordion">
+        <div class="acc-item">
+          <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=900&q=80" alt="La Callejera" loading="lazy" crossorigin="anonymous">
+          <span class="acc-strip">LA CALLEJERA</span>
+          <div class="acc-info">
+            <span class="menu-label">Especialidad de la casa</span>
+            <h3 class="menu-name">La Callejera</h3>
+            <p class="menu-desc">Carne angus, queso cheddar, tocino crocante, cebolla caramelizada y salsa callejera.</p>
+            <div class="menu-price">$28.000</div>
+          </div>
+        </div>
+        <div class="acc-item">
+          <img src="https://images.unsplash.com/photo-1561758033-d89a9ad46330?auto=format&fit=crop&w=900&q=80" alt="La Mostaza" loading="lazy" crossorigin="anonymous">
+          <span class="acc-strip">LA MOSTAZA</span>
+          <div class="acc-info">
+            <span class="menu-label">Favorita del barrio</span>
+            <h3 class="menu-name">La Mostaza</h3>
+            <p class="menu-desc">Carne jugosa, queso suizo, pepinillos, lechuga, tomate y mostaza casera.</p>
+            <div class="menu-price">$25.000</div>
+          </div>
+        </div>
+        <div class="acc-item">
+          <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=900&q=80" alt="Rebelde Triple" loading="lazy" crossorigin="anonymous">
+          <span class="acc-strip">REBELDE TRIPLE</span>
+          <div class="acc-info">
+            <span class="menu-label">Para los más hambrientos</span>
+            <h3 class="menu-name">Rebelde Triple</h3>
+            <p class="menu-desc">Triple carne, doble queso, jalapeños, aros de cebolla y pico de gallo picante.</p>
+            <div class="menu-price">$34.000</div>
+          </div>
+        </div>
+        <div class="acc-item">
+          <img src="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=900&q=80" alt="La Criolla" loading="lazy" crossorigin="anonymous">
+          <span class="acc-strip">LA CRIOLLA</span>
+          <div class="acc-info">
+            <span class="menu-label">Sabor bogotano</span>
+            <h3 class="menu-name">La Criolla</h3>
+            <p class="menu-desc">Carne de res, hogao artesanal, aguacate fresco y ají casero estilo Bogotá.</p>
+            <div class="menu-price">$26.000</div>
+          </div>
+        </div>
+        <div class="acc-item">
+          <img src="https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?auto=format&fit=crop&w=900&q=80" alt="La Oscura" loading="lazy" crossorigin="anonymous">
+          <span class="acc-strip">LA OSCURA</span>
+          <div class="acc-info">
+            <span class="menu-label">Edición especial</span>
+            <h3 class="menu-name">La Oscura</h3>
+            <p class="menu-desc">Carne ahumada, queso azul, cebolla morada encurtida, rúcula y BBQ artesanal.</p>
+            <div class="menu-price">$30.000</div>
+          </div>
+        </div>
+        <div class="acc-item">
+          <img src="https://images.unsplash.com/photo-1553979459-d2229ba7433b?auto=format&fit=crop&w=900&q=80" alt="La Bombita" loading="lazy" crossorigin="anonymous">
+          <span class="acc-strip">LA BOMBITA</span>
+          <div class="acc-info">
+            <span class="menu-label">La más pedida</span>
+            <h3 class="menu-name">La Bombita</h3>
+            <p class="menu-desc">Carne delgada doble, queso americano derretido, lechuga, tomate y salsa especial.</p>
+            <div class="menu-price">$24.000</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sabor" class="section container reveal">
+    <p class="section-eyebrow">El lugar</p>
+    <h2 class="section-title" style="margin-bottom:2rem;">Así se ve Callejón</h2>
+    <div class="gallery">
+      <div class="gallery-main">
+        <img src="Baozi.jpeg" alt="Interior Callejón Burger" loading="lazy">
+      </div>
+      <div class="gallery-stack gallery-stack--single">
+        <img src="art%20on%20ceiling.jpeg" alt="Arte urbano en Callejón" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <section class="section container reveal">
+    <div class="pullquote">
+      <span class="pullquote-mark">"</span>
+      <q>Callejón tiene esa mezcla perfecta entre sabor urbano y calidad real. Es el único lugar en Bogotá donde cada visita se siente como un ritual que no quieres romper.</q>
+      <div class="pullquote-author">
+        <div class="pullquote-line"></div>
+        <span>Camila G. — Crítica gastronómica · Bogotá</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="big-cta reveal">
+    <div class="big-cta-rule"></div>
+    <div class="big-cta-body">
+      <div class="container">
+        <div class="big-cta-inner">
+          <div>
+            <p class="section-eyebrow">¿Listo para Callejón?</p>
+            <h2 class="big-cta-headline">No hacemos<br><em>concesiones.</em></h2>
+            <p class="big-cta-sub">Ni en los ingredientes, ni en el sabor. Reserva tu mesa o pide a domicilio. En 10 minutos, el barrio llega a tu puerta.</p>
+            <div class="big-cta-trust">
+              <div class="trust-item">
+                <span class="trust-num">100%</span>
+                <span class="trust-label">Carne nacional</span>
+              </div>
+              <div class="trust-item">
+                <span class="trust-num">0</span>
+                <span class="trust-label">Conservantes</span>
+              </div>
+              <div class="trust-item">
+                <span class="trust-num">Diario</span>
+                <span class="trust-label">Pan horneado</span>
+              </div>
+              <div class="trust-item">
+                <span class="trust-num">10 min</span>
+                <span class="trust-label">Domicilio express</span>
+              </div>
+            </div>
+          </div>
+          <div class="big-cta-actions">
+            <a class="btn btn-primary" href="#contacto">Reserva tu mesa</a>
+            <a class="btn btn-secondary" href="#menu">Ver carta completa</a>
+            <p style="font-family:'IBM Plex Mono',monospace;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gris);text-align:center;margin-top:.5rem;">También vía Rappi y domicilio propio</p>
+          </div>
+        </div>
+      </div>
+      <div class="big-cta-bg-word">CALLEJÓN</div>
+    </div>
+  </section>
+
+  <section id="contacto" class="section section--alt reveal">
+    <div class="container">
+      <p class="section-eyebrow">Visítanos</p>
+      <h2 class="section-title">Estamos en el barrio</h2>
+      <div class="info-row">
+        <div class="info-cell">
+          <p class="info-label">Ubicación</p>
+          <p class="info-value">Bogotá, Colombia</p>
+          <p class="info-detail">Calle 72 #9-34</p>
+        </div>
+        <div class="info-cell">
+          <p class="info-label">Horario</p>
+          <p class="info-value">12:00 — 23:00</p>
+          <p class="info-detail">Lunes a domingo</p>
+        </div>
+        <div class="info-cell">
+          <p class="info-label">Contacto</p>
+          <p class="info-value">+57 302 123 4567</p>
+          <p class="info-detail">Órdenes y reservas</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="container footer reveal">
+  <div class="footer-grid">
+    <div>
+      <p class="footer-brand">Callejón</p>
+      <p class="footer-text">Hamburguesas artesanales con sabor callejero y actitud local. Bogotá, Colombia.</p>
+    </div>
+    <div>
+      <p class="footer-title">Redes</p>
+      <a class="footer-link" href="#" rel="noopener noreferrer">Instagram</a>
+      <a class="footer-link" href="#" rel="noopener noreferrer">TikTok</a>
+    </div>
+    <div>
+      <p class="footer-title">Legal</p>
+      <p class="footer-text">© 2026 Callejón Burger</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+if (window.top !== window.self) { window.top.location = window.self.location; }
+
+const reveals = document.querySelectorAll('.reveal');
+function checkReveal() {
+  const bottom = window.innerHeight + window.scrollY;
+  reveals.forEach(el => { if (bottom > el.offsetTop + 60) el.classList.add('visible'); });
+}
+window.addEventListener('scroll', checkReveal, { passive: true });
+window.addEventListener('load', checkReveal);
+
+const accItems = document.querySelectorAll('.acc-item');
+accItems.forEach(item => {
+  item.addEventListener('click', () => {
+    const isOpen = item.classList.contains('open');
+    accItems.forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+</script>
+</body>
+</html>
